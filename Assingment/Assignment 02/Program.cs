@@ -18,7 +18,7 @@ namespace Assignment_02
             // ==========================================
 
             const double SMELT_RATE = 0.15;
-            const double SALVAGE_RATE = 1.0;
+            const double SALVAGE_RATE = 0.35;
 
             const double MIN_AMOUNT = 0;
             const double MAX_AMOUNT = 500;
@@ -104,19 +104,19 @@ namespace Assignment_02
 
             if (!double.TryParse(amountInput, out double amount))
             {
-                Console.WriteLine("error: amount (parse ไม่ได้)");
+                Console.WriteLine("error: amount (parse nothing)");
                 return;
             }
 
             if (amount <= MIN_AMOUNT)
             {
-                Console.WriteLine("error: amount (ไม่มากกว่า 0)");
+                Console.WriteLine("error: amount (CANNOT EXCEED 0!)");
                 return;
             }
 
             if (amount > MAX_AMOUNT)
             {
-                Console.WriteLine("error: amount (เกินขอบบน)");
+                Console.WriteLine("error: amount (OUT OF BOUNDS!)");
                 return;
             }
 
