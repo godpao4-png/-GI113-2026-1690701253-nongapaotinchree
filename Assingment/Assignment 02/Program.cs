@@ -17,8 +17,12 @@ namespace Assignment_02
             // VOIDSTRIKE
             // ==========================================
 
-            const double SMELT_RATE = 2.0;
-            const double BREAKDOWN_RATE = 1.0;
+            const double SMELT_RATE = 0.15;
+            const double SALVAGE_RATE = 1.0;
+
+            const double MIN_AMOUNT = 0;
+            const double MAX_AMOUNT = 500;
+
 
             Console.WriteLine("==========================================");
             Console.WriteLine("           VOIDSTRIKE ");
@@ -64,83 +68,78 @@ namespace Assignment_02
             Console.WriteLine("======================================================================");
             Console.WriteLine();
 
-            Console.WriteLine("SMELT    : 2 Ore -> 1 Ingot");
-            Console.WriteLine("BREAKDOWN: 1 Ingot -> 1 Ore");
-
-            Console.WriteLine("------------------------------------------");
-            Console.WriteLine("[S] SMELT ORE");
-            Console.WriteLine("[B] BREAKDOWN INGOT");
-            Console.WriteLine("==========================================");
+            Console.WriteLine($"=> Iron Smelting {SMELT_RATE:0.##} / Salvage {SALVAGE_RATE:0.##}");
+            Console.WriteLine("=> Key 'S' for Smelt (Ore -> Ingot)");
+            Console.WriteLine("=> Key 'B' for Salvage (Ingot -> Ore)");
 
             // ==========================================
             // SELECT MENU
             // ==========================================
 
-            Console.Write("Choose action [S/B]: ");
-            string menu = Console.ReadLine()?.Trim().ToUpper();
+            Console.Write("Choose Menu: ");
 
-            if (menu != "S" && menu != "B")
+            string menuInput = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(menuInput) || menuInput.Length != 1)
             {
-                Console.WriteLine();
-                Console.WriteLine("[ERROR] INVALID COMMAND!");
-                Console.WriteLine("Please choose S or B.");
+                Console.WriteLine("error: menu");
+                return;
+            }
+
+            char menu = char.ToUpper(menuInput[0]);
+
+            if (menu != 'S' && menu != 'B')
+            {
+                Console.WriteLine("error: menu");
                 return;
             }
 
             // ==========================================
-            // GET AMOUNT
+            // AMOUNT
             // ==========================================
 
-            Console.Write("Enter amount: ");
-            string input = Console.ReadLine();
+            Console.Write("How much would you like: ");
 
-            if (!double.TryParse(input, out double amount))
+            string amountInput = Console.ReadLine();
+
+            if (!double.TryParse(amountInput, out double amount))
             {
-                Console.WriteLine();
-                Console.WriteLine("[ERROR] INVALID AMOUNT!");
-                Console.WriteLine("Amount must be a number.");
+                Console.WriteLine("error: amount (parse ไม่ได้)");
                 return;
             }
 
-            if (amount <= 0)
+            if (amount <= MIN_AMOUNT)
             {
-                Console.WriteLine();
-                Console.WriteLine("[ERROR] INVALID AMOUNT!");
-                Console.WriteLine("Amount must be greater than 0.");
+                Console.WriteLine("error: amount (ไม่มากกว่า 0)");
+                return;
+            }
+
+            if (amount > MAX_AMOUNT)
+            {
+                Console.WriteLine("error: amount (เกินขอบบน)");
                 return;
             }
 
             // ==========================================
-            // VOIDSTRIKE CALCULATION
+            // CALCULATE
             // ==========================================
 
-            Console.WriteLine();
-            Console.WriteLine("==========================================");
-
-            if (menu == "S")
+            if (menu == 'S')
             {
-                double ingot = amount / SMELT_RATE;
+                double ingot = amount * SMELT_RATE;
 
-                Console.WriteLine(">> ACTION   : SMELT");
-                Console.WriteLine($">> MATERIAL : {amount:0.##} Ore");
-                Console.WriteLine($">> OUTPUT   : {ingot:0.##} Ingot");
-                Console.WriteLine("------------------------------------------");
-                Console.WriteLine("⚔ VOIDSTRIKE MATERIAL READY!");
+                Console.WriteLine(
+                    $"=> {amount:0.00} Iron Ore = {ingot:0.00} Iron Ingot"
+                );
             }
-            else
+            else if (menu == 'B')
             {
-                double ore = amount * BREAKDOWN_RATE;
+                double ore = amount / SALVAGE_RATE;
 
-                Console.WriteLine(">> ACTION   : BREAKDOWN");
-                Console.WriteLine($">> MATERIAL : {amount:0.##} Ingot");
-                Console.WriteLine($"OUTPUT   : {ore:0.##} Ore");
-                Console.WriteLine("------------------------------------------");
-                Console.WriteLine("⚔ VOIDSTRIKE MATERIALS RECOVERED!");
+                Console.WriteLine(
+                    $"=> {amount:0.00} Iron Ingot = {ore:0.00} Iron Ore"
+                );
             }
-
-            Console.WriteLine("==========================================");
-            Console.WriteLine("_VOIDSTRIKE operation completed.");
-            Console.WriteLine("Returning to battlefield...");
         }
     }
 }
