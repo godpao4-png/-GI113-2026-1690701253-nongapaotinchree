@@ -1,4 +1,12 @@
-﻿namespace Assignment_02
+﻿
+/*
+*Student ID: 1690701253
+* Name       :ungpao
+* Section    :129B
+* No.        :N / A
+* Course     : GI113 Computer Programming (GI)
+*/
+namespace Assignment_02
 
 {
     internal class Program
